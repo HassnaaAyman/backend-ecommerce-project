@@ -27,13 +27,11 @@ const schema = new mongoose.Schema({
 //user regestration
 
 schema.pre('save', async function () {
-    const user = this;
-    if (user.isNew || user.modifiedPaths().includes('password')) {
-        user.password = await hashPassword(user.password);
+    if (this.isNew || this.modifiedPaths().includes('password')) {
+        this.password = await bcrypt.hash(this.password, saltRounds);
     }
 });
 
-const hashPassword = (password) => { bcrypt.hash(password, saltRounds) };
 
 schema.options.toJSON.transform = function (doc, ret, options) {
     if (options.hide) {

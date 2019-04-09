@@ -22,21 +22,16 @@ router.post('/', async (req, res, next) => {
 
 //login 
 router.post('/login', async (req, res, next) => {
-    try {
-        const { username, password } = req.body;
-        if (!username || !password) throw new Error('missing params');
-        const user = await User.findOne({ username });
-        if (!user) throw new Error('authentication failed');
-        const isMatch = await user.verifyPassword(password);
-        if (!isMatch) throw new Error('authentication failed');
-        const token = await user.generateToken();
-        res.send({
-            token,
-            user
-        })
-    } catch (err) {
-        next(createError(400, err.message));
-    }
+    if (!req.body.username || !req.body.password) return next(createError(400, 'missing arguments'))
+    const user = await User.findOne({ username: req.body.username });
+    if (!user) return next(createError(401));
+    const isMatch = await user.verifyPassword(req.body.password).catch(console.error);
+    if (!isMatch) return next(createError(401));
+    const token = await user.generateToken();
+    res.send({
+        token,
+        user
+    });
 });
 
 /* get all users */

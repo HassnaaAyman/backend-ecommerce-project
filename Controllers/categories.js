@@ -1,4 +1,5 @@
 const categories = require('../models/Category');
+const products = require('./products');
 
 module.exports = {
 
@@ -10,8 +11,9 @@ module.exports = {
         return categories.findById(id);
     },
 
-    getByProductId(productId) {
-        return Products.find({ "product": productId })
+    async getByProductId(productId) {
+        const product = await products.getById(productId);
+        return categories.findById(product.category);
     },
     add(category) {
         return categories.create(category);

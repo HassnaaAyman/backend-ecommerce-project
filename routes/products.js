@@ -18,10 +18,10 @@ router.get('/:productId', async function (req, res, next) {
 });
 
 /* GETCategoriesByProductId */
-router.get('/:productId/categories', async function (req, res, next) {
-    let product = await ProductsC.getCategory(req.params.productId).catch(console.error);
-    if (!product) return next(createError(404));
-    res.send(product);
+router.get('/:productId/category', async function (req, res, next) {
+    let category = await CategoriesC.getByProductId(req.params.productId).catch(console.error);
+    if (!category) return next(createError(404));
+    res.send(category);
 });
 
 /* ADD new product */
