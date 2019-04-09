@@ -19,7 +19,7 @@ const schema = new mongoose.Schema({
         autoIndex: true,
         toJSON: {
             transform: true,
-            hide: 'password'
+            hide: ['password', '__v']
         }
     });
 
@@ -34,13 +34,15 @@ schema.pre('save', async function () {
 
 
 schema.options.toJSON.transform = function (doc, ret, options) {
-    if (options.hide) {
-        options.hide.split('').forEach((prop) => {
-            delete ret[prop];
+    if (Array.isArray(options.hide)) {
+        console.log(options);
+        options.hide.forEach(field => {
+            console.log(field);
+            delete ret[field];
         });
     }
     return ret;
-}
+};
 
 
 // user login

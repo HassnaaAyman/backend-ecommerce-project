@@ -8,7 +8,7 @@ const authenticationMiddleware = require('../middlewares/authentecation');
 
 // base route /users
 
-// registration
+//registration
 router.post('/', async (req, res, next) => {
     try {
         const user = new User(req.body);
@@ -68,9 +68,9 @@ router.patch('/:userId', async function (req, res, next) {
 router.use(authenticationMiddleware);
 
 //get home page
-router.get('/home', (req, res) => {
-    res.send("Home Page");
-});
+// router.get('/home', (req, res) => {
+//     res.send("Home Page");
+// });
 
 
 module.exports = router;
