@@ -68,9 +68,9 @@ router.patch('/:userId', async function (req, res, next) {
 router.use(authenticationMiddleware);
 
 //get home page
-// router.get('/home', (req, res) => {
-//     res.send("Home Page");
-// });
+router.get('/product-list', (req, res) => {
+    res.send("product-list");
+});
 
 
 module.exports = router;
